@@ -31,17 +31,15 @@ export default function Login() {
       });
 
       if (!res.ok) {
-        // If response is not OK, parse the error message
         const errorData = await res.json();
         setErrorMsg(errorData.message || "Login failed");
         return;
       }
 
       const data = await res.json();
-      // data should include { message, token, user } from your /api/auth/login route
-
-      // Store token in localStorage (or cookies) for subsequent requests
+      // Save token and user email (assuming your login API returns data.user.email)
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userEmail", data.user.email);
 
       // Redirect to dashboard
       router.push("/dashboard");
@@ -58,7 +56,7 @@ export default function Login() {
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{" "}
-        <Anchor size="sm" component={Link} href="/signup">
+        <Anchor size="sm" component={Link} href="./signup">
           Create account
         </Anchor>
       </Text>
